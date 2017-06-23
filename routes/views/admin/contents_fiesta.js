@@ -11,10 +11,10 @@ exports = module.exports = function(req, res) {
 			{ text: 'Home', link: '/admin' },
 			{ text: 'Posts', link: '/admin/posts'},
 			{ text: 'Contents', link: '/admin/contents-fiesta'},
-			{ text: 'Pages', link: '#'},
+			{ text: 'Pages', link: '/admin/base-pages'},
 			{ text: 'Users', link: '#'},
 			{ text: 'Analytics', link: '#'},
-			{ text: 'Community', link: '#'},
+			{ text: 'Community', link: '/admin/blog-posts'},
 			{ text: 'Publications', link: '#'},
 			{ text: 'Categories', link: '#'},
 			{ text: 'ELearning', link: '#'}

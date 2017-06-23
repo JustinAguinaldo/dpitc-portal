@@ -55,6 +55,17 @@ exports = module.exports = function (app) {
 	app.get('/admin/contents-fiesta', routes.adminViews.contents_fiesta);
 	app.get('/admin/technologies', routes.adminViews.technologies);
 	app.get('/admin/sliders', routes.adminViews.sliders);
+	app.get('/admin/base-pages', routes.adminViews.base_pages);
+	app.get('/admin/pages', routes.adminViews.pages);
+	app.get('/admin/blog-posts', routes.adminViews.blog_posts);
+	app.get('/admin/trainings', routes.adminViews.trainings);
+	app.get('/admin/events', routes.adminViews.events);
+	app.get('/admin/discussions', routes.adminViews.discussions);
+	app.get('/admin/discussions-comments', routes.adminViews.discussions_comments);
+	app.get('/admin/links', routes.adminViews.links);
+	app.get('/admin/galleries', routes.adminViews.galleries);
+	app.get('/admin/videos', routes.adminViews.videos);
+	app.get('/admin/memos', routes.adminViews.memos);
 
 	// User
 

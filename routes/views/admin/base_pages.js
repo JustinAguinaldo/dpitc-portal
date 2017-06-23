@@ -20,17 +20,17 @@ exports = module.exports = function(req, res) {
 			{ text: 'ELearning', link: '#'}
 		],
 		breadcrumbs:[
-			{ text: 'Posts', link: '/admin/posts'},
-			{ text: 'Post-Categories', link: '/admin/posts-categories'}
+			{ text: 'Base Pages', link: '/admin/base-pages'},
+			{ text: 'Pages', link: '/admin/pages'}
 		]
   	};
 
 	//init locals
 	locals.data = {
-		posts: [],
-		posts_categories:[],
+		base_pages: [],
+		pages:[],
 		path:req.path,
 	};
 	
-	view.render('admin/posts',pageData);
+	view.render('admin/base_pages',pageData);
 };
