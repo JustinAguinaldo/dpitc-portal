@@ -48,10 +48,36 @@ exports = module.exports = function (app) {
 	app.get('/exhibit/:exhibit', routes.views.exhibit);
 	app.get('/gallery', routes.views.gallery);
 
-	// Admin Routes
-	app.get('/admin', routes.adminViews.admin);
+
+	//Admin
+	app.get('/admin', middleware.requireUser, routes.adminViews.admin);
+
+	//Admin analytics pages
+	app.get('/admin/community-views', middleware.requireAnalyticsAdmin, routes.adminViews.analytics);
+	app.get('/admin/community-views/:id',middleware.requireAnalyticsAdmin ,routes.adminViews.analytics_view);
+	app.get('/admin/discussion-views', middleware.requireAnalyticsAdmin, routes.adminViews.analytics);
+	app.get('/admin/group-views', middleware.requireAnalyticsAdmin, routes.adminViews.analytics);
+	app.get('/admin/report-views', middleware.requireAnalyticsAdmin, routes.adminViews.analytics);
+
+	app.get('/admin/users', middleware.requireUsersAdmin, routes.adminViews.users);
+	app.get('/admin/users/:id', middleware.requireUsersAdmin ,routes.adminViews.users);
+	//app.post('/admin/users/:id', routes.adminViews.users);
+
+	//Admin community pages
+	//app.get('/admin/community', routes.adminViews.community);
+
+	//Admin publications
+	app.get('/admin/publication-settings',middleware.requirePublicationsAdmin, routes.adminViews.publications);
+	app.get('/admin/publications',middleware.requirePublicationsAdmin, routes.adminViews.publications);
+	app.get('/admin/publications/:id', middleware.requirePublicationsAdmin, routes.adminViews.publication_view);
+	app.get('/admin/publication-lines',middleware.requirePublicationsAdmin, routes.adminViews.publications);
+	app.get('/admin/publication-feedback', middleware.requirePublicationsAdmin, routes.adminViews.publications);
+
+	//Admin posts
 	app.get('/admin/posts', routes.adminViews.posts);
 	app.get('/admin/posts-categories', routes.adminViews.posts_categories);
+
+	//Admin contents
 	app.get('/admin/contents-fiesta', routes.adminViews.contents_fiesta);
 	app.get('/admin/technologies', routes.adminViews.technologies);
 	app.get('/admin/sliders', routes.adminViews.sliders);
@@ -66,6 +92,17 @@ exports = module.exports = function (app) {
 	app.get('/admin/galleries', routes.adminViews.galleries);
 	app.get('/admin/videos', routes.adminViews.videos);
 	app.get('/admin/memos', routes.adminViews.memos);
+	app.get('/admin/industries', routes.adminViews.industries);
+	app.get('/admin/sectors', routes.adminViews.sectors);
+	app.get('/admin/commodities', routes.adminViews.commodities);
+
+	//Admin Elearning
+	app.get('/admin/learning-objects', middleware.requireElearningAdmin,routes.adminViews.elearning);
+	app.get('/admin/learning-objects/:id', middleware.requireElearningAdmin, routes.adminViews.elearning_view);
+	app.get('/admin/courses', middleware.requireElearningAdmin, routes.adminViews.elearning);
+	app.get('/admin/courses/:id',middleware.requireElearningAdmin, routes.adminViews.courses_view);
+	app.get('/admin/learning-contents', middleware.requireElearningAdmin,routes.adminViews.elearning);
+	app.get('/admin/learning-contents/:id',middleware.requireElearningAdmin, routes.adminViews.learning_content_view);
 
 	// User
 
@@ -101,10 +138,10 @@ exports = module.exports = function (app) {
 
 	// Elearning File Uploads
 	app.get('/api/elearning/fileupload/list', keystone.middleware.api, routes.api.elearning.fileupload.list);
-  app.get('/api/elearning/fileupload/:id', keystone.middleware.api, routes.api.elearning.fileupload.get);
-  app.all('/api/elearning/fileupload/:id/update', keystone.middleware.api, routes.api.elearning.fileupload.update);
-  app.all('/api/elearning/fileupload/create', keystone.middleware.api, routes.api.elearning.fileupload.create);
-  app.get('/api/elearning/fileupload/:id/remove', keystone.middleware.api, routes.api.elearning.fileupload.remove);
+	app.get('/api/elearning/fileupload/:id', keystone.middleware.api, routes.api.elearning.fileupload.get);
+	app.all('/api/elearning/fileupload/:id/update', keystone.middleware.api, routes.api.elearning.fileupload.update);
+	app.all('/api/elearning/fileupload/create', keystone.middleware.api, routes.api.elearning.fileupload.create);
+	app.get('/api/elearning/fileupload/:id/remove', keystone.middleware.api, routes.api.elearning.fileupload.remove);
 
 
 
@@ -180,6 +217,7 @@ exports = module.exports = function (app) {
 	app.get('/elearning/api/userVisitsRatio', routes.api.elearning.userVisitsRatio);
 
   // Publications API
+  app.get('/api/publications/download/', keystone.middleware.api, routes.api.eresources.publications.downloadPublication);
   app.get('/api/publications', keystone.middleware.api, routes.api.eresources.publications.getPublications);
   app.get('/api/publications/search/:searchKey', keystone.middleware.api, routes.api.eresources.publications.findPublication)
   app.get('/api/publications/reports/publications',keystone.middleware.api, routes.api.eresources.reports.publications);

@@ -20,31 +20,19 @@ exports = module.exports = function(req, res) {
 			{ text: 'ELearning', link: '/admin/learning-objects'}
 		],
 		breadcrumbs:[
-			{ text: 'Blog Posts', link: '/admin/blog-posts'},
-			{ text: 'Trainings', link: '/admin/trainings'},
-            { text: 'Events', link: '/admin/events'},
-            { text: 'Discussions', link: '/admin/discussions'},
-            { text: 'Discussions Comments', link: '/admin/discussions-comments'},
-            { text: 'Links', link: '/admin/links'},
-            { text: 'Galleries', link: '/admin/galleries'},
-            { text: 'Videos', link: '/admin/videos'},
-            { text: 'Memos', link: '/admin/memos'}
+			{ text: 'Industries', link: '/admin/industries'},
+			{ text: 'Sectors', link: '/admin/sectors'},
+            { text: 'Commodities', link: '/admin/commodities'},
 		]
   	};
 
 	//init locals
 	locals.data = {
-		blog_posts: [],
-		trainings:[],
-        events:[],
-        discussions:[],
-        discussion_coments:[],
-        links:[],
-        galleries:[],
-        videos:[],
-        memos:[],
+		industries: [],
+		sectors:[],
+        commodities:[],
 		path:req.path,
 	};
 	
-	view.render('admin/galleries',pageData);
+	view.render('admin/industries',pageData);
 };

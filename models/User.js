@@ -20,15 +20,16 @@ User.add({
     many: true
   },
 	location: { type: Types.Location, defaults: { country: 'Philippines' }},
-  consumerType: { 
+  consumerType: {
 		type: Types.Select,
-		options: [ 
+		options: [
 		{ value: 'Researcher', label: 'Researcher' },
 		{ value: 'Business/Private Sector', label: 'Business/Private Sector' },
 		{ value: 'Policy Maker', label: 'Policy Maker' },
+    { value: 'Admin', label: 'Admin' },
 		{ value: 'Other', label: 'Other' }
 		],
-		initial: false,
+		initial: true,
 		required: true
 	},
 	birthday: { type: Types.Date, initial: true, required: true, index: true },
@@ -43,15 +44,33 @@ User.add({
     required: false
   },
   contactNumber: { type: Types.Number, initial: true, required: true, index: true },
-  
+
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: false },
+
   isElearningAdmin: { type: Boolean, label: 'Can access Elearning Admin', index: false},
   isElearningUser: { type: Boolean, label: 'Can access Elearning UI', index: false },
+
+  isPostsAdmin: { type: Boolean, label: 'Can access Posts Admin', index: false},
+
+  isContentsAdmin: { type: Boolean, label: 'Can access Contents Admin', index: false},
+
+  isPagesAdmin: { type: Boolean, label: 'Can access Pages Admin', index: false},
+
+  isUsersAdmin: { type: Boolean, label: 'Can access Users Admin', index: false},
+
+  isAnalyticsAdmin: { type: Boolean, label: 'Can access Analytics Admin', index: false},
+
+  isCommunityAdmin: { type: Boolean, label: 'Can access Community Admin', index: false},
+
+  isPublicationsAdmin: { type: Boolean, label: 'Can access Publications Admin', index: false},
+  isPublicationsUser: { type: Boolean, label: 'Can access Publications UI', index: false },
+
+  isCategoriesAdmin: { type: Boolean, label: 'Can access Categories Admin', index: false},
+
 }, 'Backlog', {
   needsReviewing: { type: Types.Relationship, ref: 'Publication' }
-}
-);
+});
 
 // Provide access to Keystone
 User.schema.virtual('canAccessKeystone').get(function () {
@@ -66,6 +85,51 @@ User.schema.virtual('canAccessElearningAdmin').get(function () {
 User.schema.virtual('canAccessElearningUI').get(function () {
   return this.isElearningUser;
 });
+
+// Provide access to Posts Component
+User.schema.virtual('canAccessPostsAdmin').get(function() {
+  return this.isPostsAdmin;
+});
+
+// Provide access to Contents Component
+User.schema.virtual('canAccessContentsAdmin').get(function() {
+  return this.isContentsAdmin;
+});
+
+// Provide access to Pages Component
+User.schema.virtual('canAccessPagesAdmin').get(function() {
+  return this.isPagesAdmin;
+});
+
+// Provide access to Users Component
+User.schema.virtual('canAccessUsersAdmin').get(function() {
+  return this.isPostsAdmin;
+});
+
+// Provide access to Analytics Component
+User.schema.virtual('canAccessAnalyticsAdmin').get(function() {
+  return this.isAnalyticsAdmin;
+});
+
+// Provide access to Community Component
+User.schema.virtual('canAccessCommunityAdmin').get(function() {
+  return this.isCommunityAdmin;
+});
+
+// Provide access to Publications Component
+User.schema.virtual('canAccessPublicationsAdmin').get(function () {
+  return this.isPublicationsAdmin;
+});
+
+User.schema.virtual('canAccessPublicationsUI').get(function () {
+  return this.isPublicationsUser;
+});
+
+// Provide access to Posts Component
+User.schema.virtual('canAccessCategoriesAdmin').get(function() {
+  return this.isCategoriesAdmin;
+});
+
 
 
 

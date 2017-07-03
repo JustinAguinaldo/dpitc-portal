@@ -12,12 +12,12 @@ exports = module.exports = function(req, res) {
 			{ text: 'Posts', link: '/admin/posts'},
 			{ text: 'Contents', link: '/admin/contents-fiesta'},
 			{ text: 'Pages', link: '/admin/base-pages'},
-			{ text: 'Users', link: '#'},
-			{ text: 'Analytics', link: '#'},
+			{ text: 'Users', link: '/admin/users'},
+			{ text: 'Analytics', link: '/admin/community-views'},
 			{ text: 'Community', link: '/admin/blog-posts'},
-			{ text: 'Publications', link: '#'},
-			{ text: 'Categories', link: '#'},
-			{ text: 'ELearning', link: '#'}
+			{ text: 'Publications', link: '/admin/publication-settings'},
+			{ text: 'Categories', link: '/admin/industries'},
+			{ text: 'ELearning', link: '/admin/learning-objects'}
 		],
 		breadcrumbs:[
 			{ text: 'Blog Posts', link: '/admin/blog-posts'},

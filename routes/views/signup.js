@@ -36,9 +36,9 @@ exports = module.exports = function(req, res) {
 		var updater = newUser.getUpdateHandler(req);		
 		
 		updater.process(req.body, {
-        fields: 'email, password, birthday',
-        flashErrors: true,
-        logErrors: true
+        	fields: 'email, password, birthday',
+        	flashErrors: true,
+        	logErrors: true
       	}, function(err,result) {
         	if (err) {    
           		locals.validationErrors = err.errors;
