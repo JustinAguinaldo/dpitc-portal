@@ -24,15 +24,19 @@ User.add({
 		type: Types.Select,
 		options: [
 		{ value: 'Researcher', label: 'Researcher' },
-		{ value: 'Business/Private Sector', label: 'Business/Private Sector' },
+		{ value: 'Business/Private Sector/Entrepreneur', label: 'Business/Private Sector/Entrepreneur' },
 		{ value: 'Policy Maker', label: 'Policy Maker' },
+    { value: 'Student', label: 'Student' },
+    { value: 'Educator/Academician', label: 'Educator/Academician' },
+    { value: 'Government/LGU', label: 'Government/LGU'},
     { value: 'Admin', label: 'Admin' },
-		{ value: 'Other', label: 'Other' }
+		{ value: 'Others', label: 'Others' }
 		],
 		initial: true,
 		required: true
 	},
 	birthday: { type: Types.Date, initial: true, required: true, index: true },
+  age: { type: Types.Text, required: false, index: true},
   agencyAffiliation: { type: Types.Text, required: false, index: true },
 	sex: {
     type: Types.Select,

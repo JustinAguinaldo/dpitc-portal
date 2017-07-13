@@ -1,6 +1,7 @@
 doctype html
 html(lang='en')
     head
+        title DPITC
         link(href='styles/bootstrap/signup.css', rel='stylesheet')
 
         block css
@@ -11,7 +12,7 @@ html(lang='en')
 
         .main-content
             // Full Name
-            form.form-basic(method='post', action='/signup')
+            form.form-basic(method="post")
                 .row
                     input(type='hidden', name='action', value='signup')
                     .form-title-row
@@ -19,39 +20,69 @@ html(lang='en')
                     .form-row
                         label.col-sm-3.control-label(for='first') First Name
                             .col-sm-9
-                                input#firstName.form-control(type='text', placeholder='First Name', name='first')
+                                input#firstName.form-control(type='text', placeholder='First Name', value=formInput.first, required='', name='first')
                     .form-row
                         label.col-sm-3.control-label(for='last') Last Name
                             .col-sm-9
-                            input#lastName.form-control(type='text', placeholder='Last Name', name='last')
+                            input#lastName.form-control(type='text', placeholder='Last Name', value=formInput.last, required='', name='last')
                 // Email and Password
-                .form-row
-                    label.col-sm-3.control-label(for='email') Email
+                .form-group
+                    .form-row
+                        label.col-sm-3.control-label(for='email') Email
+                            .col-sm-9
+                                input#email.form-control.input-box(type='email', placeholder='Email', value=formInput.email, required='', name='email')
+                .form-group
+                    .form-row
+                     label.col-sm-3.control-label(for='password') Password
                         .col-sm-9
-                            input#email.form-control(type='email', placeholder='Email', name='email')
-                .form-row
-                    label.col-sm-3.control-label(for='password') Password
+                            input#password.form-control.input-box(type='password', placeholder='Password', required='', value=formInput.password, name='password')
                         .col-sm-9
-                            input#password(type='password', placeholder='Password', required='', name='password')
+                            input#password_confirm.form-control.input-box(type='password', placeholder='Confirm Password', value=formInput.password_confirm, required='', name='password_confirm')
+
                 // Birthday
                 .form-row
                     label.col-sm-3.control-label(for='birthDate') Birthday
                         .col-sm-9
-                            input#birthDate.form-control(type='date', name='birthday')
+                            input#birthDate.form-control(type='date', name='birthday', value=formInput.birthday)
+
+                //Age
+                .form-row
+                    label.col-sm-1.control-label(for='age') Age
+                        .col-sm-4
+                            input#age.form-control(type='text', placeholder='Age', value=formInput.age, name='age')
+
+                //Mailing Address
+                .form-group
+                    .form-row
+                        label.col-sm-3.control-label(for='address') Mailing Address
+                            .col-sm-9
+                                input#street.form-control.input-box(type='text', placeholder='street', value=formInput.street, name='street')
+                            .col-sm-9
+                                input#city.form-control.input-box(type='text', placeholder='city', value=formInput.city, name='city')
+                            .col-sm-9
+                                input#province.form-control.input-box(type='text', placeholder='province', value=formInput.province, name='province')
+                
                 // Costumer Type
                 .form-row
-                    label.col-sm-3.control-label(for='consumerType') User Type
+                    label.col-sm-3.control-label(for='consumerType') Consumer Type
                         .col-sm-9
-                            select#consumerType.form-control(name='consumerType')
-                                option Researcher
-                                option Business/Private Sector
-                                option Policy Maker
-                                option Other
+                            select.form-control(name='consumerType', value=formInput.consumerType, onchange='CheckOthers(this.value);')
+                                option Consumer Type
+                                option(value='researcher') Researcher
+                                option(value='business') Business/Private Sector/Entrepreneur
+                                option(value='policyMaker') Policy Maker
+                                option(value='farmer') Farmer
+                                option(value='student') Student
+                                option(value='educator') Educator/Academician
+                                option(value='gov') Government/LGU
+                                option(value='others') Others
+                            input#consumerType(type='text', name='others',placeholder='Please specify...' style='display:none;')
+                
                 // Agency Affliation
                 .form-row
-                    label.col-sm-3.control-label(for='agencyAffiliation') Agency Affiliation
+                    label.col-sm-3.control-label(for='agencyAffiliation') Agency Affiliation/School/Office
                         .col-sm-9
-                            input#agencyAffiliation.form-control(type='text', placeholder='Agency Affiliation', name='agencyAffiliation')
+                            input#agencyAffiliation.form-control(type='text', placeholder='Agency Affiliation', value=formInput.agencyAffiliation, name='agencyAffiliation')
                 // Sex
                 .form-row
                     label.control-label.col-sm-3 Sex
@@ -69,9 +100,20 @@ html(lang='en')
                 .form-row
                     label.col-sm-3.control-label(for='contactNumber') Contact Number
                         .col-sm-9
-                            input#email.form-control(type='text', placeholder='09*********', name='contactNumber')
+                            input#email.form-control(type='text', placeholder='09*********', value=formInput.contactNumber, name='contactNumber')
 
                 // Submit
                 .form-row
                     .col-sm-9.col-sm-offset-3
                         button.btn.btn-primary.btn-block(type='submit', name='signup') Sign Up
+
+
+ block script
+            script(type='text/javascript').
+                function CheckOthers(val){
+                    var element=document.getElementById('consumerType');
+                        if(val=='others')
+                            element.style.display='block';
+                        else
+                            element.style.display='none';
+                }

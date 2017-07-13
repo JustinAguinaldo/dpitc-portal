@@ -4,5 +4,20 @@ block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
       .jumbotron
-          p No fiesta found...
-          a.btn.btn-lg.btn-success(href='#', role='button') + Create FIESTA
+          h3 No fiesta found...
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createFIESTA') + Create FIESTA
+          #createFIESTA.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createFIESTALabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createFIESTALabel.modal-title Create a new FIESTA
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Title
+                                    input.form-control(type='text', placeholder='title', name='title')
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createFIESTA') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

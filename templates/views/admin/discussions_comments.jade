@@ -4,5 +4,30 @@ block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
       .jumbotron
-          p No discussions comments found...
-          a.btn.btn-lg.btn-success(href='#', role='button') + Create Discussions Comments
+        h3 No Blog Discussions Comments Found
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createDiscussionsComments') + Create Discussion Comments
+            #createDiscussionsComments.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createDiscussionsCommentsLabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createDiscussionsCommentsLabel.modal-title Create a new discussions comments
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Title
+                                    input.form-control(type='text', placeholder='title', name='title')
+                        .row
+                            .col-md-10
+                                label Author
+                        .row
+                            .col-md-10
+                                label Discussion
+                         .row
+                            .col-md-12   
+                                label  Content
+                                    input.form-control(type='text area', name='content')
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createDiscussionsComments') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

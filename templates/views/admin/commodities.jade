@@ -4,5 +4,23 @@ block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
       .jumbotron
-          p No commodities found...
-          a.btn.btn-lg.btn-success(href='#', role='button') + Create Commodity
+        h3 No Commodity Found
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createCommodity') + Create Commodity
+            #createCommodity.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createCommodityLabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createCommodityLabel.modal-title Create a new commodity
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Name
+                                    input.form-control(type='text', placeholder='name', name='name')
+                        .row
+                                        .col-md-10
+                                            label Sector
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createCommodity') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

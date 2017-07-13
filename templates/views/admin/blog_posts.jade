@@ -4,5 +4,26 @@ block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
       .jumbotron
-          p No blog posts found...
-          a.btn.btn-lg.btn-success(href='#', role='button') + Create Blog Posts
+        h3 No Blog Post Found
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBlogPost') + Create BLog Post
+            #createBlogPost.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createBlogPostLabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createBlogPostLabel.modal-title  Create a new blog post
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Title
+                                    input.form-control(type='text', placeholder='title', name='title')
+                        .row
+                                        .col-md-10
+                                            label Author
+                        .row
+                                        .col-md-10
+                                            label Category
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createBlogPost') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

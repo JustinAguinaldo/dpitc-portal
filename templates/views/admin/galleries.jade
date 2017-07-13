@@ -3,6 +3,21 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          p No galleries found...
-          a.btn.btn-lg.btn-success(href='#', role='button') + Create Galleries
+          .jumbotron
+            h3 No Galleries Found
+            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createGalleries') + Create Gallery
+              #createGalleries.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createGalleriesLabel', onclick='window.location.reload();')
+                .modal-dialog(role='document')
+                    .modal-content
+                      .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                              span(aria-hidden='true') ×
+                          h4#createGalleriesLabel.modal-title Create a new gallery
+                      .modal-body
+                          .row
+                              .col-md-12   
+                                  label  Name
+                                      input.form-control(type='text', placeholder='name', name='name')
+                      .modal-footer                                    
+                          button.btn.btn-primary(type='submit', name='createGalleries') Create
+                          button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

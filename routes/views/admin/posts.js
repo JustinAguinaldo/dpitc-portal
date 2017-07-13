@@ -33,6 +33,6 @@ exports = module.exports = function(req, res) {
 		posts_categories:[],
 		path:req.path,
 	};
-	
+
 	view.render('admin/posts',pageData);
 };

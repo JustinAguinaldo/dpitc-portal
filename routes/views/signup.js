@@ -1,6 +1,6 @@
 var keystone = require('keystone');
 var User = keystone.list('User');
-	async = require('async');
+var	async = require('async');
 
 
 exports = module.exports = function(req, res) {
@@ -10,48 +10,51 @@ exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
 	var locals = res.locals;
 	
-	locals.form = req.body;
+	locals.formInput = req.body || {};
+  	locals.validationErrors = {};
 
 	var pageData = {
     loginRedirect: ''
 	};
 	
 
-	view.on('post', { action: 'signup' }, function(next) {
+	view.on('post', { action: 'signup' }, function(next) {	
 		var newUser = new User.model({
 			name: {
-				first: req.body.first,
-				last: req.body.last,
+				first: locals.formInput.first,
+				last: locals.formInput.last
 			},
-			email: locals.form.email,
-			password: locals.form.password,
-					
-			birthday: locals.form.birthday,
-			consumerType: locals.form.consumerType,
-			agencyAffiliation: locals.form.agencyAffiliation,
-			sex: locals.form.sex,
-			contactNumber: locals.form.contactNumber
+			birthday: locals.formInput.birthday,
+			age: locals.formInput.age,
+			address: {
+				street: locals.formInput.street,
+				city: locals.formInput.city,
+				province: locals.formInput.province
+			},
+			consumerType: locals.formInput.consumerType,
+			agencyAffiliation: locals.formInput.agencyAffiliation,
+			sex: locals.formInput.sex,
+			contactNumber: locals.formInput.contactNumber
 		});
 
-		var updater = newUser.getUpdateHandler(req);		
-		
+		var updater = newUser.getUpdateHandler(req);
+
 		updater.process(req.body, {
         	fields: 'email, password, birthday',
         	flashErrors: true,
         	logErrors: true
       	}, function(err,result) {
-        	if (err) {    
+        	if (err) {   
           		locals.validationErrors = err.errors;
         	} else {
           		console.log(newUser);
           		req.flash('success', 'Account created. Please sign in.');         
           		return res.redirect('/keystone/signin');
        	 	}
-        next();
+        	next();
       	});
 		
 	});
 	
-	view.render('signup');
-	
-}
+	view.render('signup');	
+};
