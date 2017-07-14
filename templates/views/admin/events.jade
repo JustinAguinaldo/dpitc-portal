@@ -3,29 +3,29 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-          .jumbotron
-            h3 No Events Found
-            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createEvents') + Create Event
-              #createEvents.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createEventsLabel', onclick='window.location.reload();')
-                .modal-dialog(role='document')
-                    .modal-content
-                      .modal-header
-                          button.close(type='button', data-dismiss='modal', aria-label='Close')
-                              span(aria-hidden='true') ×
-                          h4#createEventsLabel.modal-title Create a new event
-                      .modal-body
-                          .row
-                              .col-md-12   
-                                  label  Title
-                                      input.form-control(type='text', placeholder='title', name='title')
-                          .row
-                              .col-md-12   
-                                  label  Start Date
-                                      input.form-control(type='date', name='start_Date')
-                          .row
-                              .col-md-12   
-                                  label  End Date
-                                      input.form-control(type='date', name='end_Date')
-                      .modal-footer                                    
-                          button.btn.btn-primary(type='submit', name='createEvents') Create
-                          button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+      .jumbotron
+          h3 No event found...
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createEvents') + Create Event
+          #createEvents.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createEventsLabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createEventsLabel.modal-title Create a new event
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Title
+                                    input.form-control(type='text', placeholder='title', name='title')
+                        .row
+                            .col-md-12   
+                                label  Start Date
+                                    input.form-control(type='date', name='start')
+                        .row
+                            .col-md-12   
+                                label  End Date
+                                    input.form-control(type='date', name='end')
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createEvents') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

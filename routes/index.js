@@ -75,14 +75,20 @@ exports = module.exports = function (app) {
 
 	//Admin posts
 	app.get('/admin/posts', routes.adminViews.posts);
+	app.post('/admin/posts', routes.adminViews.posts);
 	app.get('/admin/posts-categories', routes.adminViews.posts_categories);
+	app.post('/admin/posts-categories', routes.adminViews.posts_categories);
 
 	//Admin contents
 	app.get('/admin/contents-fiesta', routes.adminViews.contents_fiesta);
 	app.get('/admin/technologies', routes.adminViews.technologies);
 	app.get('/admin/sliders', routes.adminViews.sliders);
+	
+	//Admin pages
 	app.get('/admin/base-pages', routes.adminViews.base_pages);
 	app.get('/admin/pages', routes.adminViews.pages);
+	
+	//Admin Community
 	app.get('/admin/blog-posts', routes.adminViews.blog_posts);
 	app.get('/admin/trainings', routes.adminViews.trainings);
 	app.get('/admin/events', routes.adminViews.events);
@@ -92,6 +98,8 @@ exports = module.exports = function (app) {
 	app.get('/admin/galleries', routes.adminViews.galleries);
 	app.get('/admin/videos', routes.adminViews.videos);
 	app.get('/admin/memos', routes.adminViews.memos);
+	
+	//Admin Catgegories
 	app.get('/admin/industries', routes.adminViews.industries);
 	app.get('/admin/sectors', routes.adminViews.sectors);
 	app.get('/admin/commodities', routes.adminViews.commodities);

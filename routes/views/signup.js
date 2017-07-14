@@ -19,6 +19,15 @@ exports = module.exports = function(req, res) {
 	
 
 	view.on('post', { action: 'signup' }, function(next) {	
+		
+		keystone.list('User').model.findOne({ email: locals.formInput.email }, function(err, user) {		
+			if (err || user) {
+				req.flash('error', 'User already exists with that email address.');
+				next(err);
+			}
+			return next();
+			});
+		
 		var newUser = new User.model({
 			name: {
 				first: locals.formInput.first,
@@ -36,7 +45,7 @@ exports = module.exports = function(req, res) {
 			sex: locals.formInput.sex,
 			contactNumber: locals.formInput.contactNumber
 		});
-
+		
 		var updater = newUser.getUpdateHandler(req);
 
 		updater.process(req.body, {

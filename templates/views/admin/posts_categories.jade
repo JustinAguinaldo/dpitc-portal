@@ -3,21 +3,41 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No posts categories found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPostsCategories') + Create Post Category
-          #createPostsCategories.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPostsCategoriesLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createPostsCategoriesLabel.modal-title Create a new post categories
-                    .modal-body
+        if data.path === '/admin/posts-categories'
+                form.form-group.row(method='post', action='/admin/posts-categories')
+                    input(type='hidden', name='action', value='createPostsCategories')
+                    if data.posts_categories.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createPostsCategories') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPostsCategories') Create Post
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Name
+                                tbody
+                                each post_category in data.posts_categories
+                                    tr   
+                                        td 
+                                            a(href='/admin/posts-categories/'+post_category._id) #{post_category.name}
+                    else
+                        .jumbotron
+                            h3 No post category found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPostsCategories') + Create Post Category
+                    #createPostsCategories.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPostsCategoriesLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createPostsCategoriesLabel.modal-title Create a new post category
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Name
+                                            input.form-control(type='text', placeholder='name', name='name')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createPostsCategories') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

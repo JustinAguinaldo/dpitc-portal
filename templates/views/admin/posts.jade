@@ -3,21 +3,49 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No post found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPosts') + Create Post
-          #createPosts.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPostsLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createPostsLabel.modal-title Create a new Post
-                    .modal-body
+        if data.path === '/admin/posts'
+                form.form-group.row(method='post', action='/admin/posts')
+                    input(type='hidden', name='action', value='createPosts')
+                    if data.posts.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createPosts') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPosts') Create Post
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Title
+                                    th State
+                                    th Author
+                                    th Publication Date
+                                tbody
+                                each post in data.posts
+                                    tr   
+                                        td 
+                                            a(href='/admin/posts/'+post._id) #{post.title}
+                                        td #{post.author}
+                                        td #{post.state}
+                                        td #{post.publicationDate}
+                                        td
+                                            img.img-rounded(src=post.cover)
+                    else
+                        .jumbotron
+                            h3 No post found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPosts') + Create Post
+                    #createPosts.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPostsLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createPostsLabel.modal-title Create a new post
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Title
+                                            input.form-control(type='text', placeholder='title', name='title')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createPosts') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

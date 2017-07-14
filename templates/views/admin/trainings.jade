@@ -3,21 +3,21 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-          .jumbotron
-            h3 No Trainings Found
-            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createTrainings') + Create Training
-              #createTrainings.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createTrainingsLabel', onclick='window.location.reload();')
-                .modal-dialog(role='document')
-                    .modal-content
-                      .modal-header
-                          button.close(type='button', data-dismiss='modal', aria-label='Close')
-                              span(aria-hidden='true') ×
-                          h4#createTrainingsLabel.modal-title Create a new training
-                      .modal-body
-                          .row
-                              .col-md-12   
-                                  label  Title
-                                      input.form-control(type='text', placeholder='title', name='title')
-                      .modal-footer                                    
-                          button.btn.btn-primary(type='submit', name='createTrainings') Create
-                          button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+      .jumbotron
+          h3 No training found...
+          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createTrainings') + Create Training
+          #createTrainings.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createTrainingsLabel', onclick='window.location.reload();')
+              .modal-dialog(role='document')
+                  .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') ×
+                        h4#createTrainingsLabel.modal-title Create a new training
+                    .modal-body
+                        .row
+                            .col-md-12   
+                                label  Title
+                                    input.form-control(type='text', placeholder='title', name='title')
+                    .modal-footer                                    
+                        button.btn.btn-primary(type='submit', name='createTrainings') Create
+                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

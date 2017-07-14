@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var Post = keystone.list('Post');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -28,11 +29,49 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
+	locals.filters = {
+		post: req.params.post,
+	};
 	locals.data = {
 		posts: [],
 		posts_categories:[],
 		path:req.path,
 	};
+
+	// Load other posts
+	view.on('init', function (next) {
+		var q = keystone.list('Post').model.find().sort({ title: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.posts = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createPosts'}, function (next) {
+		var newPost = new Post.model({
+			title:locals.formData.title
+		});
+
+		var updater = newPost.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newPost);
+          		req.flash('success', 'Post created');         
+          		return res.redirect('/admin/posts');
+       	 	}
+        next();
+    	});
+	});
 
 	view.render('admin/posts',pageData);
 };
