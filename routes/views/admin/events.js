@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var Event = keystone.list('Event');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -33,6 +34,8 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
 	locals.data = {
 		blog_posts: [],
 		trainings:[],
@@ -45,6 +48,41 @@ exports = module.exports = function(req, res) {
         memos:[],
 		path:req.path,
 	};
+
+	// Load other events
+	view.on('init', function (next) {
+		var q = keystone.list('Event').model.find().sort({ title: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.events = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createEvents'}, function (next) {
+		var newEvent = new Event.model({
+			title:locals.formData.title,
+			startDate:locals.formData.startDate,
+			endDate:locals.formData.endDate
+		});
+
+		var updater = newEvent.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newEvent);
+          		req.flash('success', 'Event created');         
+          		return res.redirect('/admin/events');
+       	 	}
+        next();
+    	});
+	});	
 	
 	view.render('admin/events',pageData);
 };

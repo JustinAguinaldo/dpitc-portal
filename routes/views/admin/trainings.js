@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var Training = keystone.list('Training');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -33,6 +34,8 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
 	locals.data = {
 		blog_posts: [],
 		trainings:[],
@@ -45,6 +48,39 @@ exports = module.exports = function(req, res) {
         memos:[],
 		path:req.path,
 	};
+
+	// Load other trainings
+	view.on('init', function (next) {
+		var q = keystone.list('Training').model.find().sort({ title: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.trainings = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createTrainings'}, function (next) {
+		var newTraining = new Training.model({
+			title:locals.formData.title
+		});
+
+		var updater = newTraining.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newTraining);
+          		req.flash('success', 'Training created');         
+          		return res.redirect('/admin/trainings');
+       	 	}
+        next();
+    	});
+	});
 	
 	view.render('admin/trainings',pageData);
 };

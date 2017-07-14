@@ -99,15 +99,21 @@ exports = module.exports = function (app) {
 	app.get('/admin/trainings', routes.adminViews.trainings);
 	app.post('/admin/trainings', routes.adminViews.trainings);
 	app.get('/admin/events', routes.adminViews.events);
+	app.post('/admin/events', routes.adminViews.events);
 	app.get('/admin/discussions', routes.adminViews.discussions);
 	app.get('/admin/discussions-comments', routes.adminViews.discussions_comments);
 	app.get('/admin/links', routes.adminViews.links);
+	app.post('/admin/links', routes.adminViews.links);
 	app.get('/admin/galleries', routes.adminViews.galleries);
+	app.post('/admin/galleries', routes.adminViews.galleries);
 	app.get('/admin/videos', routes.adminViews.videos);
+	app.post('/admin/videos', routes.adminViews.videos);
 	app.get('/admin/memos', routes.adminViews.memos);
+	app.post('/admin/memos', routes.adminViews.memos);
 	
 	//Admin Catgegories
 	app.get('/admin/industries', routes.adminViews.industries);
+	app.post('/admin/industries', routes.adminViews.industries);
 	app.get('/admin/sectors', routes.adminViews.sectors);
 	app.get('/admin/commodities', routes.adminViews.commodities);
 

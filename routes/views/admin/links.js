@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var Link = keystone.list('Link');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -45,6 +46,40 @@ exports = module.exports = function(req, res) {
         memos:[],
 		path:req.path,
 	};
+
+	// Load other links
+	view.on('init', function (next) {
+		var q = keystone.list('Link').model.find().sort({ name: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.links = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createLinks'}, function (next) {
+		var newLink = new Link.model({
+			name:locals.formData.name,
+			URL:locals.formData.URL
+		});
+
+		var updater = newLink.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newLink);
+          		req.flash('success', 'Link created');         
+          		return res.redirect('/admin/links');
+       	 	}
+        next();
+    	});
+	});	
 	
 	view.render('admin/links',pageData);
 };

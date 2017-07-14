@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var Industry = keystone.list('Industry'); 
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -27,12 +28,47 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
 	locals.data = {
 		industries: [],
 		sectors:[],
         commodities:[],
 		path:req.path,
 	};
+
+	// Load other industries
+	view.on('init', function (next) {
+		var q = keystone.list('Industry').model.find().sort({ name: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.industries = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createIndustry'}, function (next) {
+		var newIndustry = new Industry.model({
+			name:locals.formData.name
+		});
+
+		var updater = newIndustry.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newIndustry);
+          		req.flash('success', 'Industry created');         
+          		return res.redirect('/admin/industries');
+       	 	}
+        next();
+    	});
+	});
 	
 	view.render('admin/industries',pageData);
 };

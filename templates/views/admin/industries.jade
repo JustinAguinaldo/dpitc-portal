@@ -3,21 +3,41 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No industry found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createIndustries') + Create Industry
-          #createIndustries.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createIndustriesLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createIndustriesLabel.modal-title Create a new industry
-                    .modal-body
+        if data.path === '/admin/industries'
+                form.form-group.row(method='post', action='/admin/industries')
+                    input(type='hidden', name='action', value='createIndustry')
+                    if data.industries.length > 0
                         .row
-                            .col-md-12   
-                                label  Name
-                                    input.form-control(type='text', placeholder='name', name='name')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createIndustries') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createIndustry') Create Industry
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Name
+                                tbody
+                                each industry in data.industries
+                                    tr   
+                                        td 
+                                            a(href='/admin/industries/'+industry._id) #{industry.name}
+                    else
+                        .jumbotron
+                            h3 No industry found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createIndustry') + Create Industry
+                    #createIndustry.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createIndustryLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createIndustryLabel.modal-title Create a new industry
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Name
+                                            input.form-control(type='text', placeholder='name', name='name')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createIndustry') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

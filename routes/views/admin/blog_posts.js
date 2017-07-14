@@ -60,7 +60,7 @@ exports = module.exports = function(req, res) {
 
 	});
 
-	view.on('post',{action: 'createPosts'}, function (next) {
+	view.on('post',{action: 'createBlogPosts'}, function (next) {
 		var newBlogPost = new BlogPost.model({
 			title:locals.formData.title
 		});

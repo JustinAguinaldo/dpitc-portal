@@ -3,25 +3,48 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No link found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createLinks') + Create Link
-          #createLinks.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createLinksLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createLinksLabel.modal-title Create a new link
-                    .modal-body
+        if data.path === '/admin/links'
+                form.form-group.row(method='post', action='/admin/links')
+                    input(type='hidden', name='action', value='createLinks')
+                    if data.links.length > 0
                         .row
-                            .col-md-12   
-                                label  Name
-                                    input.form-control(type='text', placeholder='name', name='name')
-                        .row
-                            .col-md-12   
-                                label  URL
-                                    input.form-control(type='text', placeholder='URL', name='url')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createLinks') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createLinks') Create Links
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Name
+                                tr  
+                                    th URL
+                                tbody
+                                each link in data.links
+                                    tr   
+                                        td 
+                                            a(href='/admin/links/'+link._id) #{link.name}
+                                        td #{link.URL}
+                    else
+                        .jumbotron
+                            h3 No link found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createLinks') + Create Links
+                    #createLinks.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createLinksLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createLinksLabel.modal-title Create a new Links
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Name
+                                            input.form-control(type='text', placeholder='name', name='name')
+                                    .row
+                                        .col-md-12   
+                                            label  URL
+                                            input.form-control(type='url', placeholder='URL', name='URL')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createLinks') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

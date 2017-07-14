@@ -3,15 +3,15 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-        if data.path === '/admin/posts'
-                form.form-group.row(method='post', action='/admin/posts')
-                    input(type='hidden', name='action', value='createPosts')
-                    if data.posts.length > 0
+        if data.path === '/admin/blog-posts'
+                form.form-group.row(method='post', action='/admin/blog-posts')
+                    input(type='hidden', name='action', value='createBlogPosts')
+                    if data.blog_posts.length > 0
                         .row
                             .col-md-6
                                 input.form-control(type='text', placeholder='Search..')
                             .col-md-2
-                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPosts') Create Post
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBlogPosts') Create Blog Post
                         .table-responsive   
                             table.table.table-striped
                                 thead
@@ -20,31 +20,34 @@ block content
                                     th Author
                                     th Category
                                 tbody
-                                each post in data.posts
+                                each blogpost in data.blog_posts
                                     tr   
                                         td 
-                                            a(href='/admin/posts/'+post._id) #{post.title}
-                                        td #{post.author}
-                                        td #{post.state}
-                                        td #{post.publicationDate}
-                                        td
-                                            img.img-rounded(src=post.cover)
+                                            a(href='/admin/blog-posts/'+blogpost._id) #{blogpost.title}
+                                        td #{blogpost.author}
+                                        td #{blogpost.category}
                     else
                         .jumbotron
-                            h3 No post found...
-                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPosts') + Create Post
-                    #createPosts.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPostsLabel')
+                            h3 No blog post found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBlogPosts') + Create Blog Post
+                    #createBlogPosts.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createBlogPostsLabel')
                         .modal-dialog(role='document')
                             .modal-content
                                 .modal-header
                                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                                         span(aria-hidden='true') ×
-                                    h4#createPostsLabel.modal-title Create a new post
+                                    h4#createBlogPostsLabel.modal-title Create a new blog post
                                 .modal-body
                                     .row
                                         .col-md-12   
                                             label  Title
                                             input.form-control(type='text', placeholder='title', name='title')
+                                    .row
+                                        .col-md-12   
+                                            label  Author
+                                    .row
+                                        .col-md-12   
+                                            label  Category
                                 .modal-footer                                    
-                                    button.btn.btn-primary(type='submit', name='createPosts') Create
+                                    button.btn.btn-primary(type='submit', name='createBlogPosts') Create
                                     button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
