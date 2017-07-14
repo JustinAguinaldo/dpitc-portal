@@ -81,16 +81,23 @@ exports = module.exports = function (app) {
 
 	//Admin contents
 	app.get('/admin/contents-fiesta', routes.adminViews.contents_fiesta);
+	app.post('/admin/contents-fiesta', routes.adminViews.contents_fiesta);
 	app.get('/admin/technologies', routes.adminViews.technologies);
+	app.post('/admin/technologies', routes.adminViews.technologies);
 	app.get('/admin/sliders', routes.adminViews.sliders);
+	app.post('/admin/sliders', routes.adminViews.sliders);
 	
 	//Admin pages
 	app.get('/admin/base-pages', routes.adminViews.base_pages);
+	app.post('/admin/base-pages', routes.adminViews.base_pages);
 	app.get('/admin/pages', routes.adminViews.pages);
+	app.post('/admin/pages', routes.adminViews.pages);
 	
 	//Admin Community
 	app.get('/admin/blog-posts', routes.adminViews.blog_posts);
+	app.post('/admin/blog-posts', routes.adminViews.blog_posts);
 	app.get('/admin/trainings', routes.adminViews.trainings);
+	app.post('/admin/trainings', routes.adminViews.trainings);
 	app.get('/admin/events', routes.adminViews.events);
 	app.get('/admin/discussions', routes.adminViews.discussions);
 	app.get('/admin/discussions-comments', routes.adminViews.discussions_comments);

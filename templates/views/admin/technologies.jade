@@ -3,21 +3,45 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No technology found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createTechnologies') + Create Technology
-          #createTechnologies.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createTechnologiesLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createTechnologiesLabel.modal-title Create a new technology
-                    .modal-body
+        if data.path === '/admin/technologies'
+                form.form-group.row(method='post', action='/admin/technologies')
+                    input(type='hidden', name='action', value='createTechnologies')
+                    if data.technologies.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createTechnologies') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createTechnologies') Create Technologies
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Title
+                                    th Author
+                                    th Publication Date
+                                tbody
+                                each technology in data.technologies
+                                    tr   
+                                        td 
+                                            a(href='/admin/technologies/'+technology._id) #{technology.title}
+                                        td #{technology.author}
+                                        td #{technology.publicationDate}
+                    else
+                        .jumbotron
+                            h3 No technology found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createTechnologies') + Create Technology
+                    #createTechnologies.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createTechnologyLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createTechnologyLabel.modal-title Create a new technology
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Title
+                                            input.form-control(type='text', placeholder='title', name='title')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createTechnologies') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

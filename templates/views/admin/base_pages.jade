@@ -3,21 +3,41 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No base page found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBasePages') + Create Base Page
-          #createBasePages.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createBasePagesLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createBasePagesLabel.modal-title Create a new base page
-                    .modal-body
+        if data.path === '/admin/base-pages'
+                form.form-group.row(method='post', action='/admin/base-pages')
+                    input(type='hidden', name='action', value='createBasePages')
+                    if data.base_pages.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createBasePages') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBasePages') Create Base Page
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Title
+                                tbody
+                                each base in data.base_pages
+                                    tr   
+                                        td 
+                                            a(href='/admin/base-pages/'+base._id) #{base.title}
+                    else
+                        .jumbotron
+                            h3 No base pages found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createBasePages') + Create Base Page
+                    #createBasePages.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createBasePagesLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createBasePagesLabel.modal-title Create a new base pages
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Title
+                                            input.form-control(type='text', placeholder='title', name='title')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createBasePages') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

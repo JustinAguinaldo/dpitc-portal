@@ -3,21 +3,41 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No page found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPages') + Create Page
-          #createPages.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPagesLabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createPagesLabel.modal-title Create a new page
-                    .modal-body
+        if data.path === '/admin/pages'
+                form.form-group.row(method='post', action='/admin/pages')
+                    input(type='hidden', name='action', value='createPages')
+                    if data.pages.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createPages') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPages') Create Page
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Title
+                                tbody
+                                each page in data.pages
+                                    tr   
+                                        td 
+                                            a(href='/admin/pages/'+page._id) #{page.title}
+                    else
+                        .jumbotron
+                            h3 No pages found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createPages') + Create Page
+                    #createPages.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createPagesLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createPagesLabel.modal-title Create a new page
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Title
+                                            input.form-control(type='text', placeholder='title', name='title')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createPages') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

@@ -71,7 +71,7 @@ exports = module.exports = function(req, res) {
        	 	}
         next();
     	});
-	});
+	});	
 
 	view.render('admin/posts',pageData);
 };

@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var BlogPost = keystone.list('BlogPost');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -33,6 +34,8 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
 	locals.data = {
 		blog_posts: [],
 		trainings:[],
@@ -46,5 +49,38 @@ exports = module.exports = function(req, res) {
 		path:req.path,
 	};
 	
+	// Load blog posts
+	view.on('init', function (next) {
+		var q = keystone.list('BlogPost').model.find().sort({ title: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.blog_posts = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createPosts'}, function (next) {
+		var newBlogPost = new BlogPost.model({
+			title:locals.formData.title
+		});
+
+		var updater = newBlogPost.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newBlogPost);
+          		req.flash('success', 'Blog Post created');         
+          		return res.redirect('/admin/blog-posts');
+       	 	}
+        next();
+    	});
+	});
+
 	view.render('admin/blog_posts',pageData);
 };

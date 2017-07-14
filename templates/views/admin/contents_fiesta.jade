@@ -3,21 +3,45 @@ extends ../../layouts/admin-default
 block content
   .row
     .col-sm-9.col-sm-offset-7.col-md-10.col-md-offset-2.main
-      .jumbotron
-          h3 No fiesta found...
-          button.btn.btn-success(type='button', data-toggle='modal', data-target='#createFIESTA') + Create FIESTA
-          #createFIESTA.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createFIESTALabel', onclick='window.location.reload();')
-              .modal-dialog(role='document')
-                  .modal-content
-                    .modal-header
-                        button.close(type='button', data-dismiss='modal', aria-label='Close')
-                            span(aria-hidden='true') ×
-                        h4#createFIESTALabel.modal-title Create a new FIESTA
-                    .modal-body
+        if data.path === '/admin/contents-fiesta'
+                form.form-group.row(method='post', action='/admin/contents-fiesta')
+                    input(type='hidden', name='action', value='createFiesta')
+                    if data.contents_fiesta.length > 0
                         .row
-                            .col-md-12   
-                                label  Title
-                                    input.form-control(type='text', placeholder='title', name='title')
-                    .modal-footer                                    
-                        button.btn.btn-primary(type='submit', name='createFIESTA') Create
-                        button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close
+                            .col-md-6
+                                input.form-control(type='text', placeholder='Search..')
+                            .col-md-2
+                                button.btn.btn-success(type='button', data-toggle='modal', data-target='#createFiesta') Create Fiesta
+                        .table-responsive   
+                            table.table.table-striped
+                                thead
+                                tr  
+                                    th Title
+                                    th Author
+                                    th Publication Date
+                                tbody
+                                each fiesta in data.contents_fiesta
+                                    tr   
+                                        td 
+                                            a(href='/admin/contents-fiesta/'+fiesta._id) #{fiesta.title}
+                                        td #{fiesta.author}
+                                        td #{fiesta.publicationDate}
+                    else
+                        .jumbotron
+                            h3 No fiesta found...
+                            button.btn.btn-success(type='button', data-toggle='modal', data-target='#createFiesta') + Create Fiesta
+                    #createFiesta.modal.fade(tabindex='-1', role='dialog', aria-labelledby='createFiestaLabel')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                    h4#createFiestaLabel.modal-title Create a new fiesta
+                                .modal-body
+                                    .row
+                                        .col-md-12   
+                                            label  Title
+                                            input.form-control(type='text', placeholder='title', name='title')
+                                .modal-footer                                    
+                                    button.btn.btn-primary(type='submit', name='createFiesta') Create
+                                    button.btn.btn-default(type='button', data-dismiss='modal', onclick='window.location.reload();') Close

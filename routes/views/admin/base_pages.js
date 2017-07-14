@@ -1,4 +1,5 @@
 var keystone = require('keystone');
+var BasePage = keystone.list('BasePage');
 
 exports = module.exports = function(req, res) {
 	var view = new keystone.View(req, res);
@@ -26,11 +27,46 @@ exports = module.exports = function(req, res) {
   	};
 
 	//init locals
+	locals.section = 'users';
+	locals.formData = req.body;
 	locals.data = {
 		base_pages: [],
 		pages:[],
 		path:req.path,
 	};
+
+	// Load other posts
+	view.on('init', function (next) {
+		var q = keystone.list('BasePage').model.find().sort({ title: 1 })
+
+		q.exec(function (err, results) {
+			locals.data.base_pages = results;
+			next(err);
+		});
+
+	});
+
+	view.on('post',{action: 'createBasePages'}, function (next) {
+		var newBasePage = new BasePage.model({
+			title:locals.formData.title
+		});
+
+		var updater = newBasePage.getUpdateHandler(req);
+
+		updater.process(req.body, {
+        flashErrors: true,
+        logErrors: true
+      	}, function(err,result) {
+        	if (err) {    
+          		locals.validationErrors = err.errors;
+        	} else {
+          		console.log(newBasePage);
+          		req.flash('success', 'Base Page created');         
+          		return res.redirect('/admin/base-pages');
+       	 	}
+        next();
+    	});
+	});	
 	
 	view.render('admin/base_pages',pageData);
 };
